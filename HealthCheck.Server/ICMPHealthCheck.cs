@@ -16,9 +16,9 @@ namespace HealthCheck.Server
         private readonly int HealthyRoundTripTime;
        
 
-
-
-
+        //Here we add a constructor accepting both Host and HealthyRoundTripTime as parameters to set programmatically
+        //These can now be set by the contructor upon initialization and then used within the class further (in the main method)
+        //These will have to be updated/provided in the middle ware setup in the Program.cs file
         public ICMPHealthCheck(string host, int healthyRoundTripTime)
         {
             Host = host;
@@ -43,8 +43,9 @@ namespace HealthCheck.Server
                     //Unhealthy, if the PING request fails or an Exception is thrown
                     case IPStatus.Success:
 
+                        //We create various outcome messages containing the target host, the ping outcome and roundtrip duration.
+                        //These have been added as parameters as well. 
                         var msg = $"ICMP to {Host} took {reply.RoundtripTime} ms.";
-
 
                         return (reply.RoundtripTime > HealthyRoundTripTime)
                             ? HealthCheckResult.Degraded(msg)
