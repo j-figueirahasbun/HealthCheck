@@ -11,9 +11,22 @@ namespace HealthCheck.Server
         //Host is set to a non-routable IP adress, which seems rather awkward.
         //This is done for demonstration purposes so that we will be able to simulate an "unhealthy" scenario.
         //Normally, Host and HealthyRoundtripTime variables sould be passed as parameters so that we can set them programmatically.
-        private readonly string Host = $"10.0.0.0";
-        private readonly int HealthyRoundTripTime = 300;
+        // ! The code has been adapted to use these as parameter
+        private readonly string Host;
+        private readonly int HealthyRoundTripTime;
        
+
+
+
+
+        public ICMPHealthCheck(string host, int healthyRoundTripTime)
+        {
+            Host = host;
+            HealthyRoundTripTime = healthyRoundTripTime;
+        }
+
+
+
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {
             try
@@ -29,17 +42,25 @@ namespace HealthCheck.Server
                     //Degraded, if the PING request gets a successful reply with a round trip time greater than 300 ms
                     //Unhealthy, if the PING request fails or an Exception is thrown
                     case IPStatus.Success:
+
+                        var msg = $"ICMP to {Host} took {reply.RoundtripTime} ms.";
+
+
                         return (reply.RoundtripTime > HealthyRoundTripTime)
-                            ? HealthCheckResult.Degraded()
-                            : HealthCheckResult.Healthy();
+                            ? HealthCheckResult.Degraded(msg)
+                            : HealthCheckResult.Healthy(msg);
                     default:
-                        return HealthCheckResult.Unhealthy();
+                        var err = $"ICMP to {Host} failed: {reply.Status}.";
+                        return HealthCheckResult.Unhealthy(err);
                 }
             }
 
             catch (Exception ex)
             {
-                return HealthCheckResult.Unhealthy();
+
+                var err = $"ICMP failed: {ex.Message}.";
+
+                return HealthCheckResult.Unhealthy(err);
             }
         }
     }
