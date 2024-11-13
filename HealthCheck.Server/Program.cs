@@ -38,7 +38,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.UseHealthChecks(new PathString("/api/health"));
+app.UseHealthChecks(new PathString("/api/health"),
+    new CustomHealthCheckOptions());
 //HealthCheck was added before the controllers so the controllers dont interfere with the 
 //Healthcheck and occur before those take place.
 
