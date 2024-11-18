@@ -6,7 +6,7 @@ import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-health-check',
   templateUrl: './health-check.component.html',
-  styleUrl: './health-check.component.css'
+  styleUrl: './health-check.component.scss'
 })
 
 //Implement the onInit interface by adding the implements onInit instruction to add

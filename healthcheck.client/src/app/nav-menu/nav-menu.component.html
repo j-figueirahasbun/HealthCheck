@@ -1,7 +1,17 @@
 <header>
-  <nav>
-    <a [routerLink]="['/']">Home</a>
-    <a [routerLink]="['/fetch-data']">Fetch Data</a>
-    <a [routerLink]="['/health-check']">Health Check</a>
-  </nav>
+  <mat-toolbar color="primary">
+    <button mat-icon-button [routerLink]="['/']">
+      <mat-icon>home</mat-icon>
+    </button>
+
+    <a mat-flat-button color="primary" [routerLink]="['/fetch-data']">
+      <mat-icon>Fetch Data</mat-icon>
+    </a>
+
+    <a mat-flat-button color="primary" [routerLink]="['/health-check']">
+      <mat-icon>Health Check</mat-icon>
+    </a>
+
+  </mat-toolbar>
+  
 </header>
