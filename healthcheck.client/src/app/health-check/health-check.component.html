@@ -2,14 +2,14 @@
 <p> Here are the results for the health check:</p>
 <p *ngIf="!result"><em>Loading...</em></p>
 <table class='table table-striped' aria-labelledby="table table-striped" *ngIf="result">
-  <thread>
+  <thead>
     <tr>
       <th>Name</th>
       <th>Response Time</th>
       <th>Status</th>
       <th>Description</th>
     </tr>
-  </thread>
+  </thead>
   <tbody>
     <tr *ngFor="let check of result.checks">
       <td>{{check.name}}</td>
